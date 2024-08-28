@@ -18,3 +18,12 @@ export const Avatar = styled.img`
   width: 64px;
   height: 64px;
 `;
+
+export const Author = styled.p`
+  font-weight: 500;
+  font-size: 12px;
+`;
+
+export const Title = styled.h1`
+  margin-bottom: 0.5rem;
+`;

@@ -1,8 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Avatar, ContainerArticle, ContainerTitle } from "./style";
-import { getUserImage } from "@/app/actions/posts";
+import {
+  Avatar,
+  Author,
+  ContainerArticle,
+  ContainerTitle,
+  Title,
+} from "./style";
+import { getUser, IUser } from "@/app/actions/posts";
 
 export interface IPost {
   id?: number;
@@ -12,24 +18,30 @@ export interface IPost {
 }
 
 export default function Post({ title, body, userId }: IPost) {
-  const [userImage, setUserImage] = useState("");
+  const [user, setUser] = useState<IUser>();
   const trimBody = body.substring(0, 100) + "...";
   // Need to think of a way to not call again if there is a duplicate
   // Possibly redux would resole this issue.
+
   useEffect(() => {
-    const fetchImage = async () => {
-      const image = await getUserImage(userId);
-      setUserImage(image);
+    const fetchUser = async () => {
+      const image = await getUser(userId);
+      setUser(image);
     };
 
-    fetchImage();
+    fetchUser();
   }, [userId]);
 
   return (
     <ContainerArticle>
       <ContainerTitle>
-        <Avatar src={userImage} />
-        <h1>{title}</h1>
+        {user?.image && <Avatar src={user.image} />}
+        <div>
+          <Title>{title}</Title>
+          <Author>
+            {user?.firstName} {user?.lastName}
+          </Author>
+        </div>
       </ContainerTitle>
       <p>{trimBody}</p>
     </ContainerArticle>

@@ -8,6 +8,12 @@ interface IPosts {
   posts: IPost[];
 }
 
+export interface IUser {
+  image: string;
+  firstName: string;
+  lastName: string;
+}
+
 export async function getPosts(skip: number): Promise<IPosts | undefined> {
   try {
     const response = await fetch(
@@ -22,9 +28,9 @@ export async function getPosts(skip: number): Promise<IPosts | undefined> {
   }
 }
 
-export async function getUserImage(userId: number) {
+export async function getUser(userId: number): Promise<IUser> {
   const user = await fetch(`https://dummyjson.com/users/${userId}`);
   const res = await user.json();
 
-  return res.image;
+  return res;
 }
